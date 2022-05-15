@@ -1,0 +1,5 @@
+env_config: # 该 map 指名了在不同的环境下使用不同 config 路径下的配置文件夹
+  dev: dev
+  prod: prod
+component:
+  []
