@@ -1,8 +1,7 @@
 package main
 
-import "github.com/EAFA0/toast/pkg/register"
-
+import _ "github.com/EAFA0/Toast/internal/init"
 
 func main() {
-	register.Init()
+
 }
