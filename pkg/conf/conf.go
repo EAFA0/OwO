@@ -8,8 +8,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/EAFA0/toast/pkg/env"
-	"github.com/EAFA0/toast/pkg/log"
+	"github.com/EAFA0/Toast/pkg/env"
+	"github.com/EAFA0/Toast/pkg/log"
 	"github.com/spf13/viper"
 )
 
@@ -18,14 +18,14 @@ func Init() {
 	EnvRelatedConfig()
 }
 
-var v = viper.Viper{}
+var v = viper.New()
 
 var DefaultConfigPath = "config"
 var ProjectPathSkipStep = 4
 
 // BasicConfig 加载默认配置及环境无关的配置项
 func BasicConfig() {
-	if err := loadConfigFromFloder(projectConfigPath()); err != nil {
+	if err := loadConfigFromFolder(projectConfigPath()); err != nil {
 		log.Panic("load basic config failed", log.Err(err))
 	}
 }
@@ -33,14 +33,21 @@ func BasicConfig() {
 // EnvRelatedConfig 加载环境相关的配置项
 func EnvRelatedConfig() {
 	envConfigPath, envVal := "env_config", env.Local()
-	path := MustGetString(envConfigPath, string(envVal))
+	// 如果设置了环境相关的设置, 则合并环境相关配置
+	if !IsSet(envConfigPath) {
+		return
+	}
 
 	// 装载环境相关配置
-	if err := loadConfigFromFloder(path); err != nil {
+	path := GetString(envConfigPath, string(envVal))
+	if err := loadConfigFromFolder(path); err != nil {
 		log.Panic("load env related config failed", log.Err(err))
 	}
 }
 
+func IsSet(nodes ...string) bool {
+	return v.IsSet(NodePath(nodes...))
+}
 func SetDefault(val interface{}, nodes ...string) {
 	v.SetDefault(NodePath(nodes...), val)
 }
@@ -128,8 +135,8 @@ func projectConfigPath() string {
 	return filepath.Join(filepath.Dir(file), DefaultConfigPath)
 }
 
-// loadConfigFromFloder 加载指定目录下的所有配置文件, 跳过文件夹内容
-func loadConfigFromFloder(path string) error {
+// loadConfigFromFolder 加载指定目录下的所有配置文件, 跳过文件夹内容
+func loadConfigFromFolder(path string) error {
 	files, err := os.ReadDir(path)
 	if err != nil {
 		return err
