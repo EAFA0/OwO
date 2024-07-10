@@ -5,7 +5,7 @@ import (
 	"context"
 	"errors"
 
-	"github.com/EAFA0/Toast/internal/engine/event"
+	"github.com/EAFA0/OwO/internal/engine/event"
 )
 
 type ID uint64

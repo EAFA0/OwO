@@ -1,6 +1,6 @@
 package main
 
-import _ "github.com/EAFA0/Toast/internal/init"
+import _ "github.com/EAFA0/OwO/internal/init"
 
 func main() {
 

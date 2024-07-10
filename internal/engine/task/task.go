@@ -6,8 +6,8 @@ package task
 import (
 	"context"
 
-	"github.com/EAFA0/Toast/internal/engine/event"
-	"github.com/EAFA0/Toast/internal/engine/slice"
+	"github.com/EAFA0/OwO/internal/engine/event"
+	"github.com/EAFA0/OwO/internal/engine/slice"
 )
 
 type ID uint64
